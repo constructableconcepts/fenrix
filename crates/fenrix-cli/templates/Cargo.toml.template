@@ -1,0 +1,14 @@
+[package]
+name = "{{project-name}}"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# When publishing, you would use a version number like this:
+# fenrix = "0.0.1"
+# For local development, we use a path dependency:
+fenrix = { path = "../packages/fenrix" }
+wasm-bindgen = "0.2"

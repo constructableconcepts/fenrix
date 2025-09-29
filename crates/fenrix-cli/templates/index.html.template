@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{project-name}}</title>
+</head>
+<body>
+    <script type="module">
+        import init from './pkg/{{project-name}}.js';
+        async function run() {
+            await init();
+        }
+        run();
+    </script>
+</body>
+</html>

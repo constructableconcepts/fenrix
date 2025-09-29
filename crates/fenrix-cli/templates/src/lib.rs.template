@@ -1,0 +1,18 @@
+use fenrix::{component, render, rsx, web_sys::Node};
+use wasm_bindgen::prelude::*;
+
+#[allow(non_snake_case)]
+#[component]
+fn App() -> Node {
+    rsx! {
+        <div>
+            <h1>"Hello, Fenrix!"</h1>
+            <p>"Your new Fenrix application is running."</p>
+        </div>
+    }
+}
+
+#[wasm_bindgen(start)]
+pub fn run() {
+    render(rsx! { <App /> });
+}

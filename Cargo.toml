@@ -1,0 +1,16 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/fenrix-core", "crates/fenrix-dom", "crates/fenrix-macros", "crates/fenrix-router", "examples/data-binding", "examples/di-example", "examples/hello-world", "examples/routing-example", "examples/simple-component", "examples/server-function-example", "crates/fenrix-server", "crates/fenrix-cli", "packages/fenrix",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Giri Venkat"]
+license = "MIT"
+repository = "https://github.com/user/fenrix"
+description = "A modern Rust UI framework for building fast, reliable, and beautiful web apps."
+categories = ["gui", "web-programming"]
+keywords = ["fenrix", "ui", "gui", "react", "wasm"]
+readme = "README.md"

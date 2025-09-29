@@ -1,0 +1,29 @@
+[package]
+name = "fenrix-server"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Server-side runner for the Fenrix framework, handling API endpoints and static file serving."
+categories.workspace = true
+keywords.workspace = true
+readme = "../../README.md"
+
+[dependencies]
+# Web server
+axum = "0.7"
+tokio = { version = "1", features = ["full"] }
+tower-http = { version = "0.5", features = ["fs", "trace"] }
+tracing = "0.1"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Fenrix internals
+fenrix-core = { path = "../fenrix-core", version = "0.1.0"  }
+
+[dev-dependencies]
+reqwest = { version = "0.12", features = ["json"] }
+tempfile = "3.10"
