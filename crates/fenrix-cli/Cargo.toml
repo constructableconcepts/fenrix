@@ -2,8 +2,6 @@
 name = "fenrix-cli"
 version = "0.1.0"
 edition = "2021"
-license = "MIT"
-description = "Command Line Interface for Ferix: A modern Rust UI framework for building fast, reliable, and beautiful web apps."
 
 [[bin]]
 name = "cargo-fenrix"

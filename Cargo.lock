@@ -356,24 +356,13 @@ dependencies = [
 
 [[package]]
 name = "fenrix-core"
-version = "0.1.0"
+version = "0.0.1"
 
 [[package]]
 name = "fenrix-dom"
 version = "0.1.0"
 dependencies = [
  "fenrix-core",
- "wasm-bindgen",
- "web-sys",
-]
-
-[[package]]
-name = "fenrix-hello-world"
-version = "0.1.0"
-dependencies = [
- "fenrix-core",
- "fenrix-dom",
- "fenrix-macros",
  "wasm-bindgen",
  "web-sys",
 ]
@@ -398,7 +387,7 @@ dependencies = [
 
 [[package]]
 name = "fenrix-server"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "axum",
  "fenrix-core",
@@ -551,6 +540,17 @@ name = "heck"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
+
+[[package]]
+name = "hello-world"
+version = "0.1.0"
+dependencies = [
+ "fenrix-core",
+ "fenrix-dom",
+ "fenrix-macros",
+ "wasm-bindgen",
+ "web-sys",
+]
 
 [[package]]
 name = "http"

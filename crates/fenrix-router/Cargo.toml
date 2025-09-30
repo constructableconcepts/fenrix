@@ -2,11 +2,9 @@
 name = "fenrix-router"
 version = "0.1.0"
 edition = "2021"
-license.workspace = true
-description = "Router for Ferix: A modern Rust UI framework for building fast, reliable, and beautiful web apps."
 
 [dependencies]
-fenrix-core = { path = "../../crates/fenrix-core", version = "0.1.0"  }
+fenrix-core = { path = "../../crates/fenrix-core" }
 wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = [
     "Location",
@@ -14,5 +12,4 @@ web-sys = { version = "0.3", features = [
     "HashChangeEvent",
     "Event",
     "EventTarget",
-    "Node",
 ]}

@@ -2,15 +2,13 @@
 name = "fenrix"
 version = "0.1.0"
 edition = "2021"
-license.workspace = true
-description = "Main entry point for Fenrix: A modern Rust UI framework for building fast, reliable, and beautiful web apps."
 
 [dependencies]
 # Re-export core components
-fenrix-core = { path = "../../crates/fenrix-core", version = "0.1.0"  }
-fenrix-dom = { path = "../../crates/fenrix-dom", version = "0.1.0"  }
-fenrix-macros = { path = "../../crates/fenrix-macros", version = "0.1.0"  }
-fenrix-router = { path = "../../crates/fenrix-router", version = "0.1.0"  }
+fenrix-core = { path = "../../crates/fenrix-core" }
+fenrix-dom = { path = "../../crates/fenrix-dom" }
+fenrix-macros = { path = "../../crates/fenrix-macros" }
+fenrix-router = { path = "../../crates/fenrix-router" }
 
 # Re-export for convenience
 wasm-bindgen = "0.2"

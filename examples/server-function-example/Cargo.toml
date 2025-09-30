@@ -10,9 +10,9 @@ publish = false
 crate-type = ["cdylib"]
 
 [dependencies]
-fenrix-core = { path = "../../crates/fenrix-core", version = "0.1.0"  }
-fenrix-dom = { path = "../../crates/fenrix-dom", version = "0.1.0"  }
-fenrix-macros = { path = "../../crates/fenrix-macros", version = "0.1.0"  }
+fenrix-core = { path = "../../crates/fenrix-core" }
+fenrix-dom = { path = "../../crates/fenrix-dom" }
+fenrix-macros = { path = "../../crates/fenrix-macros" }
 
 # Dependencies for wasm client
 wasm-bindgen = "0.2"

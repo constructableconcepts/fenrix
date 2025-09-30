@@ -2,8 +2,6 @@
 name = "fenrix-macros"
 version = "0.1.0"
 edition = "2021"
-license.workspace = true
-description = "Macros for Ferix: A modern Rust UI framework for building fast, reliable, and beautiful web apps."
 
 [lib]
 proc-macro = true
