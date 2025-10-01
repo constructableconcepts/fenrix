@@ -1,6 +1,7 @@
 [package]
 name = "routing-example"
 version = "0.1.0"
+authors = ["Giri Venkat"]
 edition = "2021"
 
 [lib]
@@ -15,4 +16,5 @@ wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = [
     "Node",
     "MouseEvent",
+    "console",
 ]}

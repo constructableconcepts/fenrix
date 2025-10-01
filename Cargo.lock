@@ -349,14 +349,20 @@ name = "fenrix-cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "axum",
  "clap",
  "fs_extra",
+ "tokio",
+ "tower-http 0.5.2",
  "walkdir",
 ]
 
 [[package]]
 name = "fenrix-core"
 version = "0.0.1"
+dependencies = [
+ "serde_json",
+]
 
 [[package]]
 name = "fenrix-dom"
@@ -1365,9 +1371,11 @@ dependencies = [
  "fenrix-core",
  "fenrix-dom",
  "fenrix-macros",
+ "fenrix-server",
  "serde",
  "serde-wasm-bindgen",
  "serde_json",
+ "tokio",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",

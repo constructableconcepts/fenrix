@@ -197,3 +197,14 @@ pub fn inject<T: 'static>() -> Rc<T> {
             .expect("Failed to downcast service to the requested type.")
     })
 }
+
+// --- Server Function Support ---
+pub use serde_json;
+use serde_json::Value;
+use std::future::Future;
+use std::pin::Pin;
+use std::sync::Arc;
+
+pub type ServerFn = Arc<
+    dyn Fn(Value) -> Pin<Box<dyn Future<Output = Result<Value, String>> + Send>> + Send + Sync,
+>;

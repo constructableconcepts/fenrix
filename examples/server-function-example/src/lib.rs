@@ -6,12 +6,12 @@ use web_sys::Node;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct User {
-    id: u32,
-    name: String,
+    pub id: u32,
+    pub name: String,
 }
 
 #[server]
-async fn get_user_from_db(id: u32) -> Result<User, String> {
+pub async fn get_user_from_db(id: u32) -> Result<User, String> {
     // This is the server-side implementation.
     // It will only be included in the server binary.
     println!("Server: Received request for user with id: {}", id);

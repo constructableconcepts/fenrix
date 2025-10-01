@@ -59,9 +59,9 @@ impl Parse for Node {
             braced!(content in input);
             let expr: Expr = content.parse()?;
             // Convention: if the expression is parenthesized, it's a rendered node.
-            // Otherwise, it's reactive text.
-            if let Expr::Paren(_) = expr {
-                Ok(Node::RenderedNode(expr))
+            // We unwrap the outer parentheses here to avoid a compiler warning.
+            if let Expr::Paren(paren_expr) = expr {
+                Ok(Node::RenderedNode(*paren_expr.expr))
             } else {
                 Ok(Node::ReactiveText(expr))
             }
@@ -284,9 +284,28 @@ impl ToTokens for Node {
                 });
             }
             Node::RenderedNode(expr) => {
-                // The expression is already a Node, so just pass it through.
                 tokens.extend(quote! {
-                    #expr
+                    {
+                        // The effect runs once immediately, so current_node will hold the real node
+                        // after the effect is created. We can then return it to be appended to the DOM.
+                        let current_node = ::std::rc::Rc::new(::std::cell::RefCell::new(None::<::web_sys::Node>));
+                        let effect_current_node = ::std::rc::Rc::clone(&current_node);
+
+                        fenrix_core::create_effect(move || {
+                            let new_node: ::web_sys::Node = #expr;
+
+                            if let Some(old_node) = effect_current_node.borrow().as_ref() {
+                                if let Some(parent) = old_node.parent_node() {
+                                    parent.replace_child(&new_node, old_node).unwrap();
+                                }
+                            }
+
+                            *effect_current_node.borrow_mut() = Some(new_node);
+                        });
+
+                        let borrowed_node = current_node.borrow();
+                        borrowed_node.as_ref().unwrap().clone()
+                    }
                 });
             }
         }
@@ -409,22 +428,10 @@ impl ToTokens for ComponentElement {
                 let href = quote! { format!("#{}", #href_value_tokens) };
                 let children = &self.children;
 
-                let onclick_handler = quote! {
-                    move |event: ::web_sys::MouseEvent| {
-                        event.prevent_default();
-                        let path = format!("{}", #href_value_tokens);
-                        ::web_sys::window().unwrap().location().set_hash(&path).unwrap();
-                    }
-                };
-
                 tokens.extend(quote! {
                     {
                         let element = fenrix_dom::create_element("a");
                         element.set_attribute("href", &#href).unwrap();
-
-                        let closure = ::wasm_bindgen::prelude::Closure::wrap(Box::new(#onclick_handler) as Box<dyn FnMut(_)>);
-                        element.add_event_listener_with_callback("click", closure.as_ref().unchecked_ref()).unwrap();
-                        closure.forget();
 
                         #(
                             let child_node: web_sys::Node = #children;

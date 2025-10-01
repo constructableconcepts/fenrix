@@ -1,8 +1,11 @@
 use anyhow::{Context, Result};
+use axum::{routing::get_service, Router};
 use clap::{Parser, Subcommand};
 use std::fs;
+use std::net::SocketAddr;
 use std::path::PathBuf;
 use std::process::Command;
+use tower_http::services::ServeDir;
 use walkdir::WalkDir;
 
 /// A CLI for the Fenrix web framework.
@@ -21,11 +24,12 @@ enum Commands {
         /// The name of the project to create.
         name: String,
     },
-    /// Runs a development server with hot-reloading via `wasm-pack serve`.
+    /// Runs a development server.
     Dev,
 }
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match &cli.command {
@@ -33,26 +37,39 @@ fn main() -> Result<()> {
             create_new_project(name)?;
         }
         Commands::Dev => {
-            run_dev_server()?;
+            run_dev_server().await?;
         }
     }
 
     Ok(())
 }
 
-/// Runs the `wasm-pack serve` command in the current directory.
-fn run_dev_server() -> Result<()> {
-    println!("Starting the wasm-pack development server...");
-    println!("View your app at http://127.0.0.1:8080");
-
-    let status = Command::new("wasm-pack")
-        .arg("serve")
+/// Runs the wasm-pack build command and starts a static file server.
+async fn run_dev_server() -> Result<()> {
+    println!("Building the wasm package...");
+    let build_status = Command::new("wasm-pack")
+        .arg("build")
+        .arg("--target")
+        .arg("web")
         .status()
-        .context("Failed to execute 'wasm-pack serve'. Make sure wasm-pack is installed and in your PATH.")?;
+        .context("Failed to execute 'wasm-pack build'. Make sure wasm-pack is installed and in your PATH.")?;
 
-    if !status.success() {
-        anyhow::bail!("'wasm-pack serve' command failed. This may be because the 'serve' command is not available in your version of wasm-pack.");
+    if !build_status.success() {
+        anyhow::bail!("'wasm-pack build' command failed.");
     }
+    println!("Build successful.");
+
+    println!("Starting the development server...");
+    // Serve the project root and the /pkg directory
+    let app = Router::new()
+        .nest_service("/pkg", ServeDir::new("pkg"))
+        .fallback_service(ServeDir::new("."));
+
+    let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
+    println!("View your app at http://{}", addr);
+
+    let listener = tokio::net::TcpListener::bind(addr).await?;
+    axum::serve(listener, app).await?;
 
     Ok(())
 }
@@ -92,7 +109,7 @@ fn create_new_project(name: &str) -> Result<()> {
     println!("Project '{}' created successfully!", name);
     println!("To get started, run:");
     println!("  cd {}", name);
-    println!("  fenrix dev");
+    println!("  cargo fenrix dev");
 
     Ok(())
 }

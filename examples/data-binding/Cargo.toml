@@ -1,6 +1,7 @@
 [package]
 name = "data-binding"
 version = "0.1.0"
+authors = ["Giri Venkat"]
 edition = "2021"
 
 [lib]

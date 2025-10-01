@@ -36,6 +36,7 @@ fn App() -> Node {
     let router_clone = router.clone();
     create_effect(move || {
         let path = (router_clone.current_path)();
+        web_sys::console::log_1(&format!("Routing effect running for path: {}", path).into());
         let component = router_clone.get_component(&path).unwrap_or(NotFoundPage);
         set_active_component(component);
     });
@@ -57,7 +58,7 @@ fn App() -> Node {
                 // This expression calls the active component function to render it.
                 // The outer parentheses are a convention to tell the macro this
                 // expression evaluates to a Node and should not be formatted as text.
-                { ( (active_component())() ) }
+                { ((active_component())()) }
             </main>
         </div>
     }
